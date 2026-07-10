@@ -1,0 +1,5 @@
+[user]
+	name = Matt Butler
+	email = mbutler@valicy.com
+[push]
+	autoSetupRemote = true
