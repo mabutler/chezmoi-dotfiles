@@ -1,8 +1,23 @@
-function prompt {
-  $p = $executionContext.SessionState.Path.CurrentLocation
-  if ($p.Provider.Name -eq 'FileSystem') {
-    $esc = [char]27
-    Write-Host -NoNewline "$esc]7;file://$env:COMPUTERNAME/$($p.ProviderPath -replace '\\','/')$esc\"
+function Invoke-Startship-PreCommand {
+  $current_location = $executionContext.SessionState.Path.CurrentLocation
+  if ($current_location.Provider.Name -eq 'FileSystem') {
+    $ansi_escape = [char]27
+    $provider_path = $current_location.ProviderPath -replace '\\','/'
+    $host.ui.Write("$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\")
   }
-  "PS $p$('>' * ($nestedPromptLevel + 1)) "
 }
+
+Set-PSReadLineOption -EditMode vi
+Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
+
+function touch ($f) { New-Item $f -ItemType File -Force | Out-Null }
+function which ($c) { (Get-Command $c).Source }
+
+function vsdev {
+  $vsPath = & "{env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+  Import-Module "$vsPath\Common7\Tools\Microsoft.VisualStudio.DevShell.dll"
+  Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -Arch amd64
+}
+
+Invoke-Expression (&starship init powershell)

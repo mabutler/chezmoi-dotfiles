@@ -3,3 +3,5 @@
 	email = mbutler@valicy.com
 [push]
 	autoSetupRemote = true
+[core]
+	page = delta
