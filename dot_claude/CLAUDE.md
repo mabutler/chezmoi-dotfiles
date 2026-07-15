@@ -1,3 +1,5 @@
+When committing, note my contributions in the message body when they establish meaningful human contribution: architectural decisions, or requests that changed what actually shipped — not ones I raised that got explained away or didn't survive a technical constraint. Omit otherwise.
+To validate changes, run the existing build/tests if available. If the direct path is blocked — a tool isn't installed, a GUI can't be driven programmatically, no harness exists for what you're testing — stop and ask me before building new tooling or scaffolding to work around it (e.g., writing a mockable test library to avoid driving a real GUI, or implementing a replacement CLI tool because one isn't findable). These blockers are usually quick for me to resolve; treat "build a workaround" as something that needs my go-ahead, not a default next step when the easy path fails.
 Always wait for confirmation to commit. I want to review all changes first
 
 ## Software Logging Policy
@@ -14,6 +16,7 @@ Always wait for confirmation to commit. I want to review all changes first
 - Do not re-log what a callee's TRACE already shows. If data is significant enough for DEBUG, prefer promoting that TRACE line to DEBUG over adding a second line. Do not skip a DEBUG log just because a TRACE covers the same data.
 - Significant actions being taken (not just outcomes) belong at INFO — log both the attempt and the result so a crash mid-operation leaves a record.
 - Declined/failed-but-continuing operations are WARN, not DEBUG — they're worth monitoring for patterns in production.
+- A layer that's otherwise verbose/DEBUG (an internal engine, driver, or backend implementation behind a higher-level entry point) still logs its own one-time startup/initialization/shutdown actions at INFO, if the action runs once per lifecycle and its effect persists for the whole lifecycle afterward. The "this layer is DEBUG" default applies to repeating, per-event work, not one-shot lifecycle actions.
 
 ### TRACE rules
 - Entry and exit on every function, every return path.
