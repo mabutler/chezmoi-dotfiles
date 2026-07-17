@@ -9,7 +9,6 @@ function Invoke-Startship-PreCommand {
 
 Set-PSReadLineOption -EditMode vi
 Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 function touch ($f) { New-Item $f -ItemType File -Force | Out-Null }
 function which ($c) { (Get-Command $c).Source }
@@ -21,3 +20,4 @@ function vsdev {
 }
 
 Invoke-Expression (&starship init powershell)
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
