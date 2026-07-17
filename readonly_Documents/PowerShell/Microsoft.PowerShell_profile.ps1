@@ -9,6 +9,8 @@ function Invoke-Startship-PreCommand {
 
 Set-PSReadLineOption -EditMode vi
 Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
+Set-PSReadLineOption -PredictionSource None
+Set-PSReadLineKeyHandler -Key Tab -Function Complete
 
 function touch ($f) { New-Item $f -ItemType File -Force | Out-Null }
 function which ($c) { (Get-Command $c).Source }
