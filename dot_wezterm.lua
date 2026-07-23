@@ -2,6 +2,9 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 local config = wezterm.config_builder()
 
+-- lets wezterm report distinct escape codes for modified keys (e.g. Shift+Enter vs Enter)
+config.enable_kitty_keyboard = true
+
 config.default_prog = { 'pwsh', '-NoLogo' }
 config.font = wezterm.font 'JetBrainsMono Nerd Font'
 config.font_size = 11.0
