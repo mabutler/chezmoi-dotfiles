@@ -23,3 +23,5 @@ function vsdev {
 
 Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
+
+$env:EDITOR = "powershell -NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\bin\nvim-wezterm.ps1"
