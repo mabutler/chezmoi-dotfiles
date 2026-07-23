@@ -25,4 +25,22 @@ function vsdev {
 Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
+# Cache the rendered prompt per (history entry, directory) so Tab-completion redraws
+# within the same unsubmitted line reuse it instead of re-running starship. Invalidates
+# the instant a command actually runs or the directory changes.
+$global:__promptCache = @{ Text = $null; HistoryId = -1; Pwd = $null }
+$__originalPrompt = $function:prompt
+function prompt {
+    $historyId = (Get-History -Count 1).Id
+    $cwd = $PWD.ProviderPath
+    if ($null -ne $global:__promptCache.Text -and $historyId -eq $global:__promptCache.HistoryId -and $cwd -eq $global:__promptCache.Pwd) {
+        return $global:__promptCache.Text
+    }
+    $result = & $__originalPrompt
+    $global:__promptCache.Text = $result
+    $global:__promptCache.HistoryId = $historyId
+    $global:__promptCache.Pwd = $cwd
+    return $result
+}
+
 $env:EDITOR = "powershell -NoProfile -ExecutionPolicy Bypass -File $env:USERPROFILE\bin\nvim-wezterm.ps1"
