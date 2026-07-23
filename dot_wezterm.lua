@@ -5,6 +5,9 @@ local config = wezterm.config_builder()
 -- lets wezterm report distinct escape codes for modified keys (e.g. Shift+Enter vs Enter)
 config.enable_kitty_keyboard = true
 
+--config.color_scheme = 'Gruvbox light, soft (base16)'
+config.color_scheme = 'Belafonte Day'
+
 config.default_prog = { 'pwsh', '-NoLogo' }
 config.font = wezterm.font 'JetBrainsMono Nerd Font'
 config.font_size = 11.0
