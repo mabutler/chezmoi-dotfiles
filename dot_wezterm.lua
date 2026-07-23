@@ -38,4 +38,6 @@ config.keys = {
   { key = 'a', mods = 'LEADER|CTRL', action = act.SendKey { key = 'a', mods = 'CTRL' } },
 }
 
+config.audible_bell = 'Disabled'
+
 return config
